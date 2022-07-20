@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsentManager", "ConsentManager\ConsentManager.csproj", "{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Debug|x64.ActiveCfg = Debug|x64
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Debug|x64.Build.0 = Debug|x64
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Release|x64.ActiveCfg = Release|x64
+		{8D0DBAA9-14C4-49F0-9966-167FED7BCEBC}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8E94E08-035A-4BC0-A927-EAF5B0DB73CD}
+	EndGlobalSection
+EndGlobal
