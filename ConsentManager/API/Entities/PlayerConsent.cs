@@ -2,16 +2,16 @@
 
 namespace ConsentManager.API.Entities
 {
-    public class ConsentedPlayer
+    public class PlayerConsent
     {
         [BsonId]
         public string UserId { get; set; }
 
-        public ConsentedPlayer()
+        public PlayerConsent()
         {
         }
 
-        public ConsentedPlayer(string userId)
+        public PlayerConsent (string userId)
         {
             UserId = userId;
         }

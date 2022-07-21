@@ -4,7 +4,7 @@ namespace ConsentManager.Configs
 {
     public class Translation : ITranslation
     {
-        public string ConsoleMessage { get; set; } = "You can consent to this server storing information by using the .consent command.";
+        public string PopupMessage { get; set; } = "You can consent to this server storing information by using the .consent command.";
 
         public string InvalidArgumentCount { get; set; } = "You have not supplied enough arguments.";
         public string InvalidArgumentType { get; set; } = "The argument needs to be either true or false.";

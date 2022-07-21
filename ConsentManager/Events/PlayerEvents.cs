@@ -8,10 +8,12 @@ namespace ConsentManager.Events
     internal class PlayerEvents
     {
         private Translation _translation;
+        private ConsentManagerApi _api;
 
-        public PlayerEvents(Translation translation)
+        public PlayerEvents(Translation translation, ConsentManagerApi api)
         {
             _translation = translation;
+            _api = api;
         }
 
         public void RegisterEvents()
@@ -26,10 +28,11 @@ namespace ConsentManager.Events
 
         private void OnVerified(VerifiedEventArgs e)
         {
-            e.Player.UpdateConsentedPlayers();
+            if (!e.Player.DoNotTrack)
+                ConsentManager.Instance._consented.Add(e.Player.Id);
 
-            if (!e.Player.GivenConsent())
-                e.Player.SendConsoleMessage(_translation.ConsoleMessage, "green");
+            if (!_api.HasPlayerGivenConsent(e.Player))
+                e.Player.OpenReportWindow(_translation.PopupMessage);
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿using ConsentManager.Configs;
+﻿using ConsentManager.API;
+using ConsentManager.API.Entities;
+using ConsentManager.Configs;
 using ConsentManager.Events;
 using Exiled.API.Features;
 using LiteDB;
 using System;
+using System.Collections.Generic;
 
 namespace ConsentManager
 {
@@ -10,6 +13,8 @@ namespace ConsentManager
     {
         private PlayerEvents _playerEvents;
 
+        internal List<int> _consented;
+        internal ConsentManagerApi _api;
         internal LiteDatabase _database;
 
         public static ConsentManager Instance;
@@ -23,9 +28,20 @@ namespace ConsentManager
         {
             Instance = this;
 
-            _database = new LiteDatabase(Config.DatabasePath);
+            _consented = new List<int>();
+            _database = new LiteDatabase(Config.DatbaseFile);
 
-            _playerEvents = new PlayerEvents(Translation);
+            _api = PluginRegistration.Register(new PluginUsage()
+            {
+                Name = nameof(ConsentManager),
+                Version = Version,
+                DataUsage = "Player's data will be used for deciding if they have DNT (Do Not Track) enabled.",
+                WhoCanSeeData = $"Any other plugins that use the {nameof(ConsentManager)} plugin (this plugin)."
+            });
+
+            _api.RefreshConsentedPlayers();
+
+            _playerEvents = new PlayerEvents(Translation, _api);
 
             RegisterEvents();
 
@@ -40,18 +56,22 @@ namespace ConsentManager
 
             _database.Dispose();
             _database = null;
+            _consented = null;
+
+            PluginRegistration.Unregister(_api.Guid);
+            _api = null;
 
             Instance = null;
 
             base.OnDisabled();
         }
-
-        public void RegisterEvents()
+        
+        private void RegisterEvents()
         {
             _playerEvents.RegisterEvents();
         }
 
-        public void UnregisterEvents()
+        private void UnregisterEvents()
         {
             _playerEvents.UnregisterEvents();
         }

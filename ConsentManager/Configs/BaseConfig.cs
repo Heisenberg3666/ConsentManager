@@ -10,7 +10,7 @@ namespace ConsentManager.Configs
         public bool IsEnabled { get; set; } = true;
         public bool DebugMode { get; set; } = true;
 
-        [Description("This is the path to where the _database is stored.")]
-        public string DatabasePath { get; set; } = Path.Combine(Paths.Configs, "Consent.db");
+        [Description("This is the path to where the database file is stored.")]
+        public string DatbaseFile { get; set; } = Path.Combine(Paths.Configs, "ConsentManager.db");
     }
 }

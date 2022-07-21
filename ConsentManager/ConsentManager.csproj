@@ -112,9 +112,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ConsentManagerApi.cs" />
-    <Compile Include="API\Entities\ConsentedPlayer.cs" />
-    <Compile Include="API\Extensions.cs" />
-    <Compile Include="Commands\Consent.cs" />
+    <Compile Include="API\Entities\PlayerConsent.cs" />
+    <Compile Include="API\Entities\PluginUsage.cs" />
+    <Compile Include="API\Exceptions\PluginNotRegisteredException.cs" />
+    <Compile Include="API\PluginRegistration.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\ConsentTerms.cs" />
+    <Compile Include="Commands\GiveConsent.cs" />
+    <Compile Include="Commands\RemoveConsent.cs" />
     <Compile Include="Configs\BaseConfig.cs" />
     <Compile Include="Configs\Translation.cs" />
     <Compile Include="ConsentManager.cs" />
