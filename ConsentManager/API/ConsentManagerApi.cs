@@ -12,15 +12,17 @@ namespace ConsentManager.API
     {
         private LiteDatabase _database;
 
-        private bool IsRegistered => PluginRegistration.IsRegistered(Guid);
+        private bool IsRegistered => PluginRegistration.IsRegistered(_guid);
 
-        public Guid Guid;
+        internal Guid _guid;
+        internal PluginUsage _pluginUsage;
 
-        public ConsentManagerApi(Guid guid)
+        public ConsentManagerApi(Guid guid, PluginUsage pluginUsage)
         {
             _database = ConsentManager.Instance._database;
 
-            Guid = guid;
+            _guid = guid;
+            _pluginUsage = pluginUsage;
 
             if (!IsRegistered)
                 throw new PluginNotRegisteredException("The supplied GUID does not match up with any other registered plugins.");
