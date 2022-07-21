@@ -58,7 +58,7 @@ namespace ConsentManager
             _database = null;
             _consented = null;
 
-            PluginRegistration.Unregister(_api._guid);
+            PluginRegistration.Unregister(_api);
             _api = null;
 
             Instance = null;
