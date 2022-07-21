@@ -29,10 +29,21 @@ For support, please create an issue on GitHub or message me on Discord (Heisenbe
 
 ```csharp
 using ConsentManager.API;
+using ConsentManager.API.Entities;
+...
+PluginUsage pluginUsage = new PluginUsage()
+{
+    Name = "MyPlugin",
+    Version = new Version(1, 0, 0, 0),
+    DataUsage = "MyPlugin will use player's data to...",
+    WhoCanSeeData = "Only MyPlugin can use/see the player's data."
+};
+
+Guid apiKey = PluginRegistration.Register(pluginUsage);
 ...
 Player player = Player.Get("Heisenberg");
 
-if (player.GivenConsent())
+if (ConsentManagerApi.HasPlayerGivenConsent(player, apiKey))
 {
     ...
 }
