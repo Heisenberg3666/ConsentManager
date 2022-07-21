@@ -1,4 +1,5 @@
 ﻿using CommandSystem;
+using ConsentManager.API;
 using Exiled.API.Features;
 using System;
 
@@ -6,6 +7,8 @@ namespace ConsentManager.Commands
 {
     internal class RemoveConsent : ICommand
     {
+        private Guid _apiKey { get { return ConsentManager.Instance._apiKey; } }
+
         public string Command { get; } = nameof(RemoveConsent).ToLower();
         public string[] Aliases { get; } = new string[] { "remove", "revoke" };
         public string Description { get; } = "Removes your consent from the server.";
@@ -14,9 +17,9 @@ namespace ConsentManager.Commands
         {
             Player player = Player.Get(sender);
 
-            if (ConsentManager.Instance._api.HasPlayerGivenConsent(player))
+            if (ConsentManagerApi.HasPlayerGivenConsent(player, _apiKey))
             {
-                ConsentManager.Instance._api.RemoveConsent(player);
+                ConsentManagerApi.RemoveConsent(player);
 
                 response = "You have sucessfully removed your consent." +
                     "\nIf you do not have DNT (Do Not Track) enabled, you will need to " +

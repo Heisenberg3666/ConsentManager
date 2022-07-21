@@ -14,7 +14,7 @@ namespace ConsentManager
         private PlayerEvents _playerEvents;
 
         internal List<int> _consented;
-        internal ConsentManagerApi _api;
+        internal Guid _apiKey;
         internal LiteDatabase _database;
 
         public static ConsentManager Instance;
@@ -31,7 +31,7 @@ namespace ConsentManager
             _consented = new List<int>();
             _database = new LiteDatabase(Config.DatbaseFile);
 
-            _api = PluginRegistration.Register(new PluginUsage()
+            _apiKey = PluginRegistration.Register(new PluginUsage()
             {
                 Name = nameof(ConsentManager),
                 Version = Version,
@@ -39,9 +39,9 @@ namespace ConsentManager
                 WhoCanSeeData = $"Any other plugins that use the {nameof(ConsentManager)} plugin (this plugin)."
             });
 
-            _api.RefreshConsentedPlayers();
+            ConsentManagerApi.RefreshConsentedPlayers();
 
-            _playerEvents = new PlayerEvents(Translation, _api);
+            _playerEvents = new PlayerEvents(Translation, _apiKey);
 
             RegisterEvents();
 
@@ -58,8 +58,8 @@ namespace ConsentManager
             _database = null;
             _consented = null;
 
-            PluginRegistration.Unregister(_api);
-            _api = null;
+            PluginRegistration.Unregister(_apiKey);
+            _apiKey = Guid.Empty;
 
             Instance = null;
 

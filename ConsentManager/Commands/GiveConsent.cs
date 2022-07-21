@@ -1,4 +1,5 @@
 ﻿using CommandSystem;
+using ConsentManager.API;
 using Exiled.API.Features;
 using MEC;
 using System;
@@ -10,6 +11,7 @@ namespace ConsentManager.Commands
     {
         private List<int> _confirmed { get; } = new List<int>();
         private List<int> _toConfirm { get; } = new List<int>();
+        private Guid _apiKey { get { return ConsentManager.Instance._apiKey; } }
 
         public string Command { get; } = nameof(GiveConsent).ToLower();
         public string[] Aliases { get; } = new string[] { "give", "add" };
@@ -18,7 +20,7 @@ namespace ConsentManager.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            bool consentGiven = ConsentManager.Instance._api.HasPlayerGivenConsent(player);
+            bool consentGiven = ConsentManagerApi.HasPlayerGivenConsent(player, _apiKey);
 
             if (!_toConfirm.Contains(player.Id)
                 && !_confirmed.Contains(player.Id)
@@ -31,7 +33,7 @@ namespace ConsentManager.Commands
                 Timing.CallDelayed(10f, () =>
                 {
                     if (_confirmed.Contains(player.Id))
-                        ConsentManager.Instance._api.AddConsent(player);
+                        ConsentManagerApi.AddConsent(player);
 
                     _toConfirm.Remove(player.Id);
                     _confirmed.Remove(player.Id);

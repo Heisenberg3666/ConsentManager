@@ -2,18 +2,19 @@
 using ConsentManager.Configs;
 using Exiled.Events.EventArgs;
 using Exiled.Events.Handlers;
+using System;
 
 namespace ConsentManager.Events
 {
     internal class PlayerEvents
     {
         private Translation _translation;
-        private ConsentManagerApi _api;
+        private Guid _apiKey;
 
-        public PlayerEvents(Translation translation, ConsentManagerApi api)
+        public PlayerEvents(Translation translation, Guid apiKey)
         {
             _translation = translation;
-            _api = api;
+            _apiKey = apiKey;
         }
 
         public void RegisterEvents()
@@ -31,7 +32,7 @@ namespace ConsentManager.Events
             if (!e.Player.DoNotTrack)
                 ConsentManager.Instance._consented.Add(e.Player.Id);
 
-            if (!_api.HasPlayerGivenConsent(e.Player))
+            if (!ConsentManagerApi.HasPlayerGivenConsent(e.Player, _apiKey))
                 e.Player.OpenReportWindow(_translation.PopupMessage);
         }
     }

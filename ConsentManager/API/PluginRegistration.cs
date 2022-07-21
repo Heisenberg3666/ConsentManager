@@ -7,28 +7,27 @@ namespace ConsentManager.API
 {
     public static class PluginRegistration
     {
-        internal static Dictionary<Guid, ConsentManagerApi> _apis = new Dictionary<Guid, ConsentManagerApi>();
+        internal static Dictionary<Guid, PluginUsage> _plugins = new Dictionary<Guid, PluginUsage>();
 
-        public static ConsentManagerApi Register(PluginUsage pluginUsage)
+        public static Guid Register(PluginUsage pluginUsage)
         {
             Guid guid = Guid.NewGuid();
-            _apis.Add(guid, null);
-            _apis[guid] = new ConsentManagerApi(guid, pluginUsage);
+            _plugins.Add(guid, pluginUsage);
 
-            return _apis[guid];
+            return guid;
         }
 
-        public static void Unregister(ConsentManagerApi api)
+        public static void Unregister(Guid guid)
         {
-            if (!IsRegistered(api._guid))
+            if (!IsRegistered(guid))
                 throw new PluginNotRegisteredException("The supplied GUID does not match up with any other registered plugins.");
 
-            _apis.Remove(api._guid);
+            _plugins.Remove(guid);
         }
 
         internal static bool IsRegistered(Guid guid)
         {
-            return _apis.ContainsKey(guid);
+            return _plugins.ContainsKey(guid);
         }
     }
 }

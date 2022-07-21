@@ -8,44 +8,39 @@ using System.Linq;
 
 namespace ConsentManager.API
 {
-    public class ConsentManagerApi
+    public static class ConsentManagerApi
     {
-        private LiteDatabase _database;
+        private static LiteDatabase _database { get { return ConsentManager.Instance._database; } }
 
-        private bool IsRegistered => PluginRegistration.IsRegistered(_guid);
-
-        internal Guid _guid;
-        internal PluginUsage _pluginUsage;
-
-        public ConsentManagerApi(Guid guid, PluginUsage pluginUsage)
+        /// <summary>
+        /// Checks whether a player has given their consent to the server.
+        /// To use, you need to register your plugin with <see cref="PluginRegistration.Register(PluginUsage)"/>
+        /// and use the supplied <see cref="Guid"/> as a parameter.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="guid"></param>
+        /// <returns><see cref="bool"/></returns>
+        public static bool HasPlayerGivenConsent(Player player, Guid guid)
         {
-            _database = ConsentManager.Instance._database;
-
-            _guid = guid;
-            _pluginUsage = pluginUsage;
-
-            if (!IsRegistered)
+            if (!PluginRegistration.IsRegistered(guid))
                 throw new PluginNotRegisteredException("The supplied GUID does not match up with any other registered plugins.");
-        }
 
-        public bool HasPlayerGivenConsent(Player player)
-        {
             return ConsentManager.Instance._consented.Contains(player.Id);
         }
 
-        internal void AddConsent(Player player)
+        internal static void AddConsent(Player player)
         {
             AddPlayerToDatabase(player);
             ConsentManager.Instance._consented.Add(player.Id);
         }
 
-        internal void RemoveConsent(Player player)
+        internal static void RemoveConsent(Player player)
         {
             RemovePlayerFromDatabase(player);
             ConsentManager.Instance._consented.Remove(player.Id);
         }
 
-        internal void RefreshConsentedPlayers()
+        internal static void RefreshConsentedPlayers()
         {
             List<PlayerConsent> consented = _database.GetCollection<PlayerConsent>().FindAll().ToList();
             ConsentManager.Instance._consented.Clear();
@@ -59,17 +54,17 @@ namespace ConsentManager.API
             }
         }
 
-        internal bool IsPlayerInDatabase(Player player)
+        internal static bool IsPlayerInDatabase(Player player)
         {
             return _database.GetCollection<PlayerConsent>().FindById(player.UserId) != null;
         }
 
-        private void AddPlayerToDatabase(Player player)
+        private static void AddPlayerToDatabase(Player player)
         {
             _database.GetCollection<PlayerConsent>().Insert(new PlayerConsent(player.UserId));
         }
 
-        private void RemovePlayerFromDatabase(Player player)
+        private static void RemovePlayerFromDatabase(Player player)
         {
             _database.GetCollection<PlayerConsent>().Delete(player.UserId);
         }

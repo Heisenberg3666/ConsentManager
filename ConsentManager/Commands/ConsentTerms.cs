@@ -18,11 +18,11 @@ namespace ConsentManager.Commands
             response = "Run <color=red>.consent give</color> to agree to these terms and conditions." + 
                 "\nThese plugins will use and store your data, every plugin defines what is is used for and who can see it below:\n";
 
-            IEnumerable<ConsentManagerApi> pluginUsages = PluginRegistration._apis.Values.ToList();
+            IEnumerable<PluginUsage> pluginUsages = PluginRegistration._plugins.Values.ToList();
 
-            for (int i = 0; i < PluginRegistration._apis.Count; i++)
+            for (int i = 0; i < PluginRegistration._plugins.Count; i++)
             {
-                PluginUsage pluginUsage = pluginUsages.ToList()[i]._pluginUsage;
+                PluginUsage pluginUsage = pluginUsages.ToList()[i];
                 int pluginNumber = i + 1;
 
                 response += $"\n{pluginNumber}.1 - Plugin name: <color=green>{pluginUsage.Name}</color>" +
